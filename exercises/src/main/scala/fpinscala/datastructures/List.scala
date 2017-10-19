@@ -70,10 +70,17 @@ object List { // `List` companion object. Contains functions for creating and wo
     }
 
   def reverse[A](l: List[A]): List[A] =
-    foldLeft(l, List())((acc, cur) => Cons(cur, acc))
+    foldLeft(l, List[A]())((acc, cur) => Cons(cur, acc))
 
   def foldLeftviaFoldRight[A, B](l: List[A], z: B)(f: (B, A) => B): B = ???
 
   def map[A,B](l: List[A])(f: A => B): List[B] =
-    foldRight(l, Nil)((cur, acc) => Cons(f(cur), acc))
+    foldRight(l, List[B]())((cur, acc) => Cons(f(cur), acc))
+
+  def filter[A](l: List[A]) (f: A => Boolean): List[A] =
+    foldRight(l, List[A]())((cur, acc) => {
+      if (f(cur)) Cons(cur, acc)
+      else acc
+    })
+
 }
